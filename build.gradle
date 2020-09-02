@@ -17,6 +17,7 @@ dependencies {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     compile group: 'com.h2database', name: 'h2', version: '1.4.200'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.querydsl:querydsl-jpa'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.2.5.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.2.5.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web-services', version: '2.2.5.RELEASE'
@@ -54,10 +55,10 @@ test {
     systemProperty 'de.adesso.junitinsights.enabled', 'true'
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
 }
-def querydslSrcDir = 'src/main/querydsl'
+def querydslSrcDir = 'src/main/generated'
 
 querydsl{
-    library = 'com.querydsl:querydsl-apt'
+    library = 'com.querydsl:querydsl-apt' // 사용할 AnnotationProcesoor 정의
     jpa = true
     querydslSourcesDir = querydslSrcDir
 }
@@ -66,11 +67,12 @@ compileQuerydsl{
     options.annotationProcessorPath = configurations.querydsl
 }
 configurations {
+    // 아래를 지정하지 않으면, compile 로 걸린 JPA 의존성에 접근하지 못한다.
     querydsl.extendsFrom compileClasspath
 }
-sourceSets{
-    main{
-        java{
+sourceSets {
+    main {
+        java {
             srcDirs = ['src/main/java', querydslSrcDir]
         }
     }
