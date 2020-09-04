@@ -17,12 +17,12 @@ public class News {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "news_id") private long newsId;
+    @Column(name = "news_id") private Long newsId;
     @Column(name = "news_regdate") private String newsRegDate;
     @Column(name = "news_title") private String newsTitle;
-    @Column(name="news_content", length= 8000) private String newsContent;
-    @Column(name = "news_link", length= 8000) private String newsLink;
-    @Column(name="news_thumbnail", length= 8000) private String newsThumbnail;
+    @Column(name="news_content", length= 1000) private String newsContent;
+    @Column(name = "news_link", length= 1000) private String newsLink;
+    @Column(name="news_thumbnail", length= 1000) private String newsThumbnail;
 
     @Builder
     News( String newsRegDate, String newsTitle,
